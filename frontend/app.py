@@ -17,11 +17,11 @@ if st.sidebar.button('Start New Chat'):
 
 if version =='v2':
     st.sidebar.header('Past Conversations')
-    chats = requests.get("http://localhost:8000/chats").json()
+    chats = requests.get(f"{st.secrets['API_BASE_URL']}/chats").json()
     for chat in chats["threads"]:
         if st.sidebar.button(chat['name'], key=chat["thread_id"]):
             st.session_state['thread_id']=chat['thread_id']
-            st.session_state['message_history']=requests.get(f"http://localhost:8000/chats/{chat['thread_id']}").json()['messages']
+            st.session_state['message_history']=requests.get(f"{st.secrets['API_BASE_URL']}/chats/{chat['thread_id']}").json()['messages']
 
 #------initialising the messages-history in session-state (so that they don't disappear)
 if "message_history" not in st.session_state:
@@ -56,7 +56,7 @@ if user_input:
     }
 
     response = requests.post(
-          f"http://localhost:8000/{version}/chat?stream={str(is_streaming).lower()}",
+          f"{st.secrets['API_BASE_URL']}/{version}/chat?stream={str(is_streaming).lower()}",
           json=payload,
           stream = is_streaming
 
