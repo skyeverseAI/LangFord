@@ -10,6 +10,10 @@ from api.v2_sqlite import conn
 
 app = FastAPI() # fastapi app
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 class ChatRequest(BaseModel):
     message: str
     thread_id: str | None = None

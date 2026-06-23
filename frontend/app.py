@@ -1,6 +1,13 @@
-import streamlit as st 
+import streamlit as st
 import requests
 import uuid
+
+with st.spinner("Connecting to server, please wait..."):
+    try:
+        requests.get(f"{st.secrets['API_BASE_URL']}/health", timeout=90)
+        st.success("Server is ready!")
+    except Exception:
+        st.error("Could not connect to server. Please refresh and try again.")
 
 
 # ---- side bar ---
